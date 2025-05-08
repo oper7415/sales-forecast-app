@@ -9,7 +9,7 @@ st.set_page_config(page_title="매출 예측 시스템", layout="wide")
 st.title("📊 교타쿠 매출 예측 시스템")
 
 # Google Sheets URL
-SHEET_URL = "https://docs.google.com/spreadsheets/d/1amJjEsYbWHEnJuy6em3phSStqtyE4f9ryak0I0KBNf4/edit#gid=0"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/1amJjEsYbWHEnJuy6em3phSStqtyE4f9ryak0I0KBNf4/edit?usp=sharing"
 
 # Load data
 df = load_sheet(SHEET_URL)
