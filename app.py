@@ -15,10 +15,11 @@ SHEET_URL = "https://docs.google.com/spreadsheets/d/1amJjEsYbWHEnJuy6em3phSStqty
 
 # 🔐 Google Sheets 불러오기 (오류 방지 포함)
 try:
-    df = load_sheet(SHEET_URL)
+    df = load_sheet(SHEET_URL, st.secrets["gcp_service_account"])
 except KeyError:
-    st.error("❌ Google 인증 정보가 올바르지 않거나 누락되었습니다.\n`secrets.toml` 파일에 `gcp_service_account`가 포함되어야 합니다.")
+    st.error("❌ secrets.toml에 'gcp_service_account'가 없습니다.")
     st.stop()
+
 except Exception as e:
     st.error(f"❌ Google Sheets 로딩 중 오류 발생: {e}")
     st.stop()
