@@ -3,7 +3,7 @@ import pandas as pd
 import datetime
 import pickle
 from utils import load_sheet
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 import numpy as np
 
@@ -34,7 +34,7 @@ def train_model_from_df(df):
         except:
             continue
 
-    model = LinearRegression()
+    model = RandomForestRegressor(n_estimators=100, random_state=42)
     model.fit(X, y)
 
     with open("model.pkl", "wb") as f:
