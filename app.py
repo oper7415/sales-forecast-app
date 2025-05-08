@@ -33,7 +33,7 @@ st.subheader("📈 매출 예측")
 model = pickle.load(open("model.pkl", "rb"))
 
 # 오차율 계산 함수
-@st.cache_data
+
 def get_error_margin(df, model):
     X = []
     y = []
