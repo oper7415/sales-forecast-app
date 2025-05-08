@@ -13,16 +13,25 @@ st.title("📊 교타쿠 매출 예측 시스템")
 # Google Sheets URL
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1amJjEsYbWHEnJuy6em3phSStqtyE4f9ryak0I0KBNf4/edit?usp=sharing"
 
-# Load data
-df = load_sheet(SHEET_URL)
+# 🔐 Google Sheets 불러오기 (오류 방지 포함)
+try:
+    df = load_sheet(SHEET_URL)
+except KeyError:
+    st.error("❌ Google 인증 정보가 올바르지 않거나 누락되었습니다.\n`secrets.toml` 파일에 `gcp_service_account`가 포함되어야 합니다.")
+    st.stop()
+except Exception as e:
+    st.error(f"❌ Google Sheets 로딩 중 오류 발생: {e}")
+    st.stop()
+
+# 📋 데이터 출력
 st.subheader("📋 실제 데이터")
 st.dataframe(df)
 
-# Load model
+# 모델 로드
 st.subheader("📈 매출 예측")
 model = pickle.load(open("model.pkl", "rb"))
 
-# 🔍 오차율 계산 함수
+# 오차율 계산 함수
 @st.cache_data
 def get_error_margin(df, model):
     X = []
@@ -53,7 +62,7 @@ def get_error_margin(df, model):
     relative_error = mae / np.mean(y)
     return relative_error
 
-# 사용자 입력
+# 입력
 col1, col2, col3, col4, col5 = st.columns(5)
 value1 = col1.number_input("울산이자카야 검색량", value=10)
 value2 = col2.number_input("울산달동술집 검색량", value=10)
@@ -72,15 +81,15 @@ X_input = [[value1, value2, value3, value4, value5] + day_encoded]
 prediction = model.predict(X_input)[0]
 rounded = round(prediction)
 
-# 오차율 계산
+# 오차 계산
 error_ratio = get_error_margin(df, model)
 min_pred = round(rounded * (1 - error_ratio))
 max_pred = round(rounded * (1 + error_ratio))
 
-# 결과 출력
+# 예측 결과 출력
 st.success(f"💰 예측 매출: {rounded} 원 (오차범위: {min_pred}원 ~ {max_pred}원 / ±{round(error_ratio * 100)}%)")
 
-# 그래프 출력
+# 그래프
 st.subheader("📊 예측 매출 그래프")
 fig, ax = plt.subplots()
 ax.bar(["예측 매출"], [rounded], color="skyblue", label="예측값")
