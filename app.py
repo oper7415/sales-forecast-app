@@ -87,4 +87,5 @@ min_pred = round(rounded * (1 - error_ratio))
 max_pred = round(rounded * (1 + error_ratio))
 
 # 결과 출력
-st.success(f"💰 예측 매출: {rounded} 원 (오차범위: {min_pred}원 ~ {max_pred}원 / ±{round(error_ratio * 100)}%)")
+st.success(f"💰 예측 매출: {rounded}만원 (오차범위: {min_pred}만원 ~ {max_pred}만원 / ±{round(error_ratio * 100)}%)")
+
