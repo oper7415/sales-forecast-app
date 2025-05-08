@@ -1,11 +1,12 @@
-
-import streamlit as st
-import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import pandas as pd
 
 def load_sheet(sheet_url, secrets):
-    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    scope = [
+        'https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive'
+    ]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(secrets, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_url(sheet_url)
