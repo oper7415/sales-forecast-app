@@ -1,6 +1,6 @@
-
 streamlit
 pandas
 gspread
 oauth2client
+matplotlib
 scikit-learn
