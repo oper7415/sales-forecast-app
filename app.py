@@ -11,6 +11,11 @@ st.title("📊 교타쿠 매출 예측 시스템")
 
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1amJjEsYbWHEnJuy6em3phSStqtyE4f9ryak0I0KBNf4/edit?usp=sharing"
 
+# 🔄 데이터 새로고침 버튼
+if st.button("🔄 데이터 새로고침"):
+    st.cache_data.clear()
+    st.experimental_rerun()
+
 # 🔐 Google Sheets 로딩
 try:
     df = load_sheet(SHEET_URL, st.secrets["gcp_service_account"])
