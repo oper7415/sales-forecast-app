@@ -4,10 +4,9 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-def load_sheet(sheet_url):
-    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(
-        st.secrets["gcp_service_account"], scope)
+def load_sheet(sheet_url, secrets):
+    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(secrets, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_url(sheet_url)
     worksheet = sheet.get_worksheet(0)
